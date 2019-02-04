@@ -200,17 +200,48 @@ ahead and save your GCODE file by hitting save to file.
 1.  Log in to OctoPrint. Each printer has its own website as listed below or on
 the ECE Student Projects Lab Website.
 <http://projects-web.engr.colostate.edu/ece-sr-design/B111Lab/>
-	-   <https://b111-mini-printers.engr.colostate.edu/mini1/>
-	-   <https://b111-mini-printers.engr.colostate.edu/mini2/>
-	-   <https://b111-taz-printers.engr.colostate.edu/taz1/>
-	-   <https://b111-taz-printers.engr.colostate.edu/taz2/>
+	-   **Mini 1:** <https://b111-mini-printers.engr.colostate.edu/mini1/>
+	-   **Mini 2:**<https://b111-mini-printers.engr.colostate.edu/mini2/>
+	-   **Taz 1:**<https://b111-taz-printers.engr.colostate.edu/taz1/>
+	-   **Taz 2:**<https://b111-taz-printers.engr.colostate.edu/taz2/>
 
-Import your part into Octoprint. Select the printer you want to use from the list HERE.
-Select your part in the list and load it. Make sure it shows up properly in the preview window.
-Select the control tab and preheat the extruder to 250ºC to allow ABS to flow.
-Feed cleaning filament through the printing head until it comes out clear. You can either manually push the cleaning filament through the extruder, or lock the filament into the auto feeder and then use the move axis command in Octoprint to extrude the filament. Please do not be stingy with the cleaning filament.
-Adjust the extruder temperature to the appropriate temperature for your chosen filament
-Insert your filament into the extruder and lock it down and position your filament reel on the holder.
-Using the controls in Octoprint, extrude filament until you see it change color from the clear of the cleaning filament.
-Remove any excess extruded plastic from around the extruder or bed and then press print in Octoprint. The printer will automatically come up to temperature and start printing. Feel free to monitor the print job anywhere on campus, or while connected to the VPN from off campus.
-See the policies page of this website for refreshing your knowledge of the removal and printer usage policies which you covered during your mandatory printer training.
+2.  Verify OctoPrint can talk to the printer. Usually this is not the case
+since we keep the printers turned off. If you see a screen that looks like the
+picture below, click the connect button on the right side, after verifying that
+the serial port and profile are correct and the printer has been turned on.
+The settings should match the printer type and number of the printer you
+selected. It will take a minute to automatically connect back up to the
+printer, but when connected, the screen should look like the second image.
+
+### Octoprint Communications Failure
+![OctoPrint Communications Error](./octoprint-comms-failure.png)
+### Octoprint Communications Success
+![OctoPrint Communications Success](./octoprint-comms-success.png)
+
+3.  Import your part into Octoprint.
+	1.  Click Upload and select the gcode file you created in CURA.
+	2.  If you are uploading several parts, create a folder for your parts.
+	3.  When you are done, please delete your part files since there is limited
+	space on the OctoPrint servers.
+4.  Select your part in the list and load it. Make sure it shows up properly
+in the preview window.
+5.  Select the control tab and preheat the extruder to 250ºC to allow ABS to flow.
+6.  Feed cleaning filament through the printing head until it comes out clear.
+You can either manually push the cleaning filament through the extruder, or
+lock the filament into the auto feeder and then use the move axis command in
+Octoprint to extrude the filament. Please do not be stingy with the
+cleaning filament.
+7.  Adjust the extruder temperature to the appropriate temperature for your
+chosen filament. See the table above or the signs by the 3D printers.
+8.  Insert your filament into the extruder and lock it down and position your
+filament reel on the holder.
+9.  Using the controls in Octoprint, extrude filament until you see it change
+color from the clear of the cleaning filament.
+10. Remove any excess extruded plastic from around the extruder or bed and then press print in Octoprint. The printer will automatically come up to temperature and start printing. Feel free to monitor the print job anywhere on campus, or while connected to the VPN from off campus.
+11. When your print is done, you will have 24 hours to come and remove it from
+the printer. If you do not, your filament and print will be locked away, and
+your account will be disabled on octoprint. If you have further infractions, you may loose your 3D printing privileges.
+
+See the policies page on the B111 Lab website for refreshing your knowledge of
+the removal and printer usage policies which you covered during your mandatory
+printer training.
