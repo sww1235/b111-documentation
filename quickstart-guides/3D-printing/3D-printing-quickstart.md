@@ -121,12 +121,11 @@ around on the internet.
 
 1.  Export your object as a `STL` file from your 3D modeling software.
 
-2.  Make sure to set up CURA for the appropriate 3D printer, either the Lulzbot
-Mini or the Lulzbot TAZ 6. You will probably need to do this when you first use
-CURA on a computer. If you are not prompted to set up a new printer, then you
-should be fine. Configuration examples for our printers are shown below. After
-you click `add printer`, you will not need to change anything on the next dialog
-page and can just click `finish`.
+2.  Make sure to set up CURA for the appropriate 3D printer, either the Lulzbot Mini or the Lulzbot TAZ 6. You will probably need to do this
+when you first use CURA on a computer. If you are not prompted to set up a new
+printer, then you should be fine. Configuration examples for our printers are
+shown below. After you click `add printer`, you will not need to change anything
+on the next dialog page and can just click `finish`.
 
 ![Lulzbot Mini printer configuration](./cura-lulzbot-mini-config.png)
 
@@ -139,31 +138,73 @@ the other type of printer.
 If you need to switch machine types, you can select from the `Settings ->
 Printer` dropdown in CURA.
 
-3.  Import your file into CURA Lulzbot Edition, which is on all the B111 lab
-computers. Cura can also be downloaded onto personal computers as well from
-<https://www.lulzbot.com/cura#download>. This documentation was produced with
-Cura Lulzbot Edition V3.2.32.
-		1.  Click on `File -> New Project` to clear the workspace. You can
-				also hit `ctrl + N`.
-		2.  Click on the folder on the left side to import your STL file. You can import
-				multiple STL files at once if you want. You can also go to `File -> Open File`
-				or `Ctrl + O` to add files.
+3.  Import your file into CURA Lulzbot Edition, which is on all the B111 lab computers. Cura can also be downloaded onto personal computers
+as well from <https://www.lulzbot.com/cura#download>. This documentation was
+produced with Cura Lulzbot Edition V3.2.32.
+
+	1.  Click on `File -> New Project` to clear the workspace. You can
+	also hit `ctrl + N`.
+	2.  Click on the folder on the left side to import your STL file. You can import
+	multiple STL files at once if you want. You can also go to `File -> Open File`
+	or `Ctrl + O` to add files.
 
 ![Cura Main screen with no file loaded](./cura-open-file.png)
 
-4.  On the right hand side, select your filament material and profile from the drop
-down menus. The standard profile works well for most parts. If you are having
-issues with small details, you could try the high quality profile. **Be aware:**
-This will significantly increase your print time. The high speed profile can
-decrease your print time if you do not have detailed parts.
-5.
+4.  On the right hand side, select your filament material and profile from the
+drop down menus. The standard profile works well for most parts. If you are
+having issues with small details, you could try the high quality profile. **Be
+aware:** This will significantly increase your print time. The high speed
+profile can decrease your print time if you do not have detailed parts.
 
-Switch to advanced settings and select your infill, support and other settings. A 20% to 40% infill is good enough for most projects. If you have any questions, feel free to ask the B111 team members. The support options allow for larger overhangs and holes to be printed. If you don’t know exactly what a setting does, then mess around with it in CURA. The only settings you should not touch if you don’t know exactly what you are doing, are the extrude rate and extruder size. TODO: Confirm that these are the right settings.
-Position your part on the build platform and choose the scale and rotation of your part. Use your best judgement about the best way to locate and orient your part on the build platform. Some tips:
-There either needs to be a flat side on your part, or supports must be on, at least from part to build platform.
-The 3D printed parts are often strongest in the horizontal (XY plane), with the vertical axis weaker due to the layering effect.
-Circles and holes print much more accurately if printed with their center axis vertical.
-Once you are satisfied with how your part looks in CURA, export your part to GCODE. This will contain every instruction to control the 3D printer, from the temperature information to the axis zeroing and cleaning instructions.
+5.  Select your infill, support and build plate adhesion settings.
+	-   A 20% to 40% infill is good enough for most projects.
+	-   The support options allow for larger overhangs and holes to be printed.
+	-   The build plate adhesion setting usually can be set to skirt.
+		-   Skirt: Prints an outline of filament around your part to prime the
+		extruder and show if the bed is level.
+		-   Brim: If you have small parts or are having issues with your part
+		detaching from the print bed, then you may want to try a brim. This prints a
+		single layer of filament around your part that is attached to your part in
+		order to increase the surface area of your part on the build plate.
+		-   Raft: If you are still having issues with your part coming off, you
+		can try a raft. This prints a large extra thick brim under and
+		around your part. This can be tricky to remove from your part and
+		uses extra filament so it is not recommended except in certain
+		cases. Please talk to the B111 lab team before resorting to a skirt,
+		as we may be able to provide alternate solutions.
+	-   If you understand 3D printing well and need to tweak specific settings,
+	you can do so under the custom tab. **NOTE:** Do not change the
+	`default nozzle size` setting. You may have to change the
+	`print temperature` and `build plate temperature` under the `materials`
+	section if things are not printing quite right. If you have questions,
+	please ask the B111 Labs team first.
+
+6.  Position your part on the build platform and choose the scale and rotation of your part. You must click on the part you want to change in order to activeate the controls on the left. Use your best judgement about the best way to locate and orient your part on the build platform. These controls are found on the left of the screen. Some tips:
+	-   There either needs to be a flat side on your part, or supports must be on,
+	at least from part to build platform.
+	-   3D printed parts are often strongest in the horizontal (XY plane), with
+	the vertical axis weaker due to the layering effect.
+	-   Circles and holes print much more accurately if printed with their center axis vertical.
+
+![Part Editing Controls](./cura-edit-model.png)
+
+7.  Once you are satisfied with how your part looks in CURA, export your part to
+GCODE. This will contain every instruction to control the 3D printer, from the
+temperature information to the axis zeroing and cleaning instructions. Cura will
+Automatically slice your file whenever you make changes, so as long as the text
+in the bottom right says save to file, everything should be good and you can go
+ahead and save your GCODE file by hitting save to file.
+
+## Octoprint
+
+1.  Log in to OctoPrint. Each printer has its own website as listed below or on
+the ECE Student Projects Lab Website.
+<http://projects-web.engr.colostate.edu/ece-sr-design/B111Lab/>
+	-   <https://b111-mini-printers.engr.colostate.edu/mini1/>
+	-   <https://b111-mini-printers.engr.colostate.edu/mini2/>
+	-   <https://b111-taz-printers.engr.colostate.edu/taz1/>
+	-   <https://b111-taz-printers.engr.colostate.edu/taz2/>
+
 Import your part into Octoprint. Select the printer you want to use from the list HERE.
 Select your part in the list and load it. Make sure it shows up properly in the preview window.
 Select the control tab and preheat the extruder to 250ºC to allow ABS to flow.
