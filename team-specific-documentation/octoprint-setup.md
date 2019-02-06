@@ -1,59 +1,68 @@
-Create SD card (only necessary if setting up new pi or old image gets corrupted)
+# OctoPrint Setup Reference
 
-Download SD image
-Copy to SD card using system specific tooling
+## Create SD card image (only necessary if setting up new pi or old image gets corrupted)
 
-On First boot:
+-   Download SD image
+-   Copy to SD card using system specific tooling
 
-Connect keyboard and HDMI monitor. Do not connect ethernet cable yet
-Login as user pi and change password using passwd command. See password document
-Set static IP to one of list from ENS.
-Edit /etc/dhcpcd.conf file using command sudo nano /etc/dhcpcd.conf.
-Uncomment and correct lines listed under example static IP config. See example files.
-Reboot
-Make sure to turn on ntp client:
-For recent distributions, the steps are as follows:
-sudo nano /etc/systemd/timesyncd.conf and set server to ntp.colostate.edu
-sudo timedatectl set-ntp True
-Sudo reboot
-Sudo timedatectl status
-Change hostname
-Edit /etc/hostname and change octopi to the dns name of the pi
-Edit /etc/hosts and make sure that there are at least two lines
-127.0.0.1 localhost.localdomain localhost
-127.0.1.1 dns-name-of-pi
+## On First boot:
+
+-   Connect keyboard and HDMI monitor. Do not connect ethernet cable yet
+-   Login as user pi and change password using `passwd` command. See password document
+-   Set static IP to one of list from ENS.
+-   Edit `/etc/dhcpcd.conf` file using command `sudo nano /etc/dhcpcd.conf`.
+-   Uncomment and correct lines listed under example static IP config. See example files.
+-   Reboot
+-   Make sure to turn on ntp client:
+-   For recent distributions, the steps are as follows:
+    -   `sudo nano /etc/systemd/timesyncd.conf` and set server to `ntp.colostate.edu`
+    -   `sudo timedatectl set-ntp True`
+    -   `sudo reboot`
+    -   `sudo timedatectl status` to verify
+-   Change hostname
+    -   Edit `/etc/hostname` and change octopi to the dns name of the pi
+    -   Edit `/etc/hosts` and make sure that there are at least two lines
+          127.0.0.1 localhost.localdomain localhost
+          127.0.1.1 dns-name-of-pi
 
 Now connect via ssh either to static IP or hostname.
 
-Configure locale and timezone via sudo raspi-config
+Configure locale and timezone via `sudo raspi-config`
 
-Now go to the DNS name assigned to the pi in a web browser on another computer and go through the initial configuration wizard, create an initial admin account called b111-admin with the password on the password document. Leave everything else default for now.
+Now go to the DNS name assigned to the pi in a web browser on another computer
+and go through the initial configuration wizard, create an initial admin account
+called `b111-admin` with the password on the password document. Leave everything
+else default for now.
 
 Configuring multiple printers on one pi:
 
-This is adapted from http://thomas-messmer.com/index.php/14-free-knowledge/howtos/79-setting-up-octoprint-for-multiple-printers
+This is adapted from
+<http://thomas-messmer.com/index.php/14-free-knowledge/howtos/79-setting-up-octoprint-for-multiple-printers>
 
-USB devices are named by linux in the order they are detected by the kernel, which means that the /dev/ttyAMC0 device can actually refer to a different printer when things are unplugged or the pi is rebooted.
+USB devices are named by linux in the order they are detected by the kernel,
+which means that the `/dev/ttyAMC0` device can actually refer to a different
+printer when things are unplugged or the pi is rebooted.
 
-The solution to this is to configure udev rules to automatically map the printers to a static symlink.
+The solution to this is to configure udev rules to automatically map the
+printers to a static symlink.
 
-First, find the differences between the two devices using the udevadm command: udevadm info -a -n /dev/ttyACM1 | less
+First, find the differences between the two devices using the udevadm command:
+`udevadm info -a -n /dev/ttyACM1 | less`
 
-The pipe into less allows you to scroll through the command output easily on a short terminal.
+The pipe into less allows you to scroll through the command output easily on a
+short terminal.
 
 Example output is shown below:
 
-
-
-
-
+```bash
 pi@b111-taz-printers:~ $ udevadm info -a -n /dev/ttyACM1
 
 Udevadm info starts with the device specified by the devpath and then
 walks up the chain of parent devices. It prints for every device
 found, all possible attributes in the udev rules key format.
 A rule to match, can be composed by the attributes of the device
-and the attributes from one single parent device. Although the tty subsystem is still available with usb ATTRS. This was a mistake I made.
+and the attributes from one single parent device. Although the tty subsystem is
+still available with usb ATTRS. This was a mistake I made.
 
   looking at device '/devices/platform/soc/3f980000.usb/usb1/1-1/1-1.4/1-1.4:1.0/tty/ttyACM1':
     KERNEL=="ttyACM1"
@@ -223,53 +232,77 @@ and the attributes from one single parent device. Although the tty subsystem is 
     KERNELS=="platform"
     SUBSYSTEMS==""
     DRIVERS==""
+```
 
+This command prints info about all the links in the usb chain on the pi itself,
+starting with the chosen device. Each “looking at parent device” like indicates
+a different level. They are arranged from deepest to shallowest level. For our
+environment, I found that the only difference that mattered was the
+`ATTRS{serial}` line in the `SUBSYSTEMS=="usb", DRIVERS==”usb”` line. When
+creating the udev file below, you need to keep all the attributes that you are
+matching within one “parent device” section.
 
-This command prints info about all the links in the usb chain on the pi itself, starting with the chosen device. Each “looking at parent device” like indicates a different level. They are arranged from deepest to shallowest level. For our environment, I found that the only difference that mattered was the ATTRS{serial} line in the SUBSYSTEMS=="usb", DRIVERS==”usb” line. When creating the udev file below, you need to keep all the attributes that you are matching within one “parent device” section.
+Now you need to create a file called `99-usb-serial.rules` in
+`/etc/udev/rules.d` using the command: `sudo nano
+/etc/udev/rules.d/99-usb-serial.rules`
 
-Now you need to create a file called 99-usb-serial.rules in /etc/udev/rules.d using the command: sudo nano /etc/udev/rules.d/99-usb-serial.rules
-
-This will open up a simple editor that works similarly to notepad or textedit. Add a line similar to the one below for each printer, verifying that all the information is correct.
+This will open up a simple editor that works similarly to notepad or textedit.
+Add a line similar to the one below for each printer, verifying that all the
+information is correct.
 
 This version will work, but connects to the wrong device.
+```
 SUBSYSTEM=="usb", ATTRS{idVendor}=="27b1", ATTRS{idProduct}=="0001", ATTRS{serial}=="755303132313515092B0", SYMLINK+="ttyTAZ2"
+```
 
 Even though the idVendor, idProduct and serial attrs are not part of the tty device section, we can still use them. This maps to the tty serial port rather than the usb device itself.
+```
 SUBSYSTEM=="tty", ATTRS{idVendor}=="27b1", ATTRS{idProduct}=="0001", ATTRS{serial}=="755303132313515092B0", SYMLINK+="ttyTAZ2"
+```
 
 The symlink is what you want the printer to be called and will appear under /dev/.
 
 The current udev rules that I created are documented below. These should work unless
 
 B111-taz-printers:
+
+```
 SUBSYSTEM=="tty", ATTRS{idVendor}=="27b1", ATTRS{idProduct}=="0001", ATTRS{serial}=="5553933303835141C011", SYMLINK+="ttyTAZ1"
 SUBSYSTEM=="tty", ATTRS{idVendor}=="27b1", ATTRS{idProduct}=="0001", ATTRS{serial}=="755303132313515092B0", SYMLINK+="ttyTAZ2"
-
+```
 
 B111-mini-printers:
+
+```
 SUBSYSTEM=="tty", ATTRS{idVendor}=="27b1", ATTRS{idProduct}=="0001", ATTRS{serial}=="740343139383517070F1", SYMLINK+="ttyLM2"
 SUBSYSTEM=="tty", ATTRS{idVendor}=="27b1", ATTRS{idProduct}=="0001", ATTRS{serial}=="74035323434351B01232", SYMLINK+="ttyLM1"
-
+```
 (LM stands for  Lulzbot Mini)
 
-Now you need to create a new instance of octoprint for each printer connected to a pi. If there are more than 2 printers connected, you will need to repeat these steps for each additional printer, replacing octoprint2 with octoprintn where n is the number of the printer. (the n can be anything descriptive of which printer is being configured, but it really doesn’t matter)
+Now you need to create a new instance of octoprint for each printer connected to
+a pi. If there are more than 2 printers connected, you will need to repeat these
+steps for each additional printer, replacing octoprint2 with octoprintn where n
+is the number of the printer. (the n can be anything descriptive of which
+printer is being configured, but it really doesn’t matter)
 
-First, copy octoprint directory: cp -R /home/pi/.octoprint/ /home/pi/.octoprint2
+First, copy octoprint directory: `cp -R /home/pi/.octoprint/ /home/pi/.octoprint2`
 
-Then copy configuration script: sudo cp /etc/default/octoprint /etc/default/octoprint2
+Then copy configuration script: `sudo cp /etc/default/octoprint /etc/default/octoprint2`
 
-Now edit the configuration script that you just created: sudo nano /etc/default/octoprint2
+Now edit the configuration script that you just created: `sudo nano /etc/default/octoprint2`
 
-You need to increment the port that the DAEMON runs on, so for the second printer, set PORT=5001, and add the basedir option to the DAEMON_ARGS line: DAEMON_ARGS="--host=$HOST --port=$PORT --basedir /home/pi/.octoprint2/"
+You need to increment the port that the DAEMON runs on, so for the second
+printer, set `PORT=5001`, and add the basedir option to the `DAEMON_ARGS` line:
+`DAEMON_ARGS="--host=$HOST --port=$PORT --basedir /home/pi/.octoprint2/"`
 
-Now you need to copy the init script and modify it:
+Now you need to copy the init script and modify it: ```bash sudo cp
+/etc/init.d/octoprint /etc/init.d/octoprint2 sudo nano /etc/init.d/octoprint2
+``` Change every instance of octoprint to octoprint2 except for the
+DAEMON=/usr/bin/octoprint line. The things you need to change should all be at
+the top of the file. No need to scroll down below the SCRIPTNAME line. See an
+example below.
 
-sudo cp /etc/init.d/octoprint /etc/init.d/octoprint2
-
-sudo nano /etc/init.d/octoprint2
-
-Change every instance of octoprint to octoprint2 except for the DAEMON=/usr/bin/octoprint line. The things you need to change should all be at the top of the file. No need to scroll down below the SCRIPTNAME line. See an example below.
-
+```bash
 #!/bin/sh
 
 ### BEGIN INIT INFO
@@ -294,60 +327,79 @@ DAEMON=/usr/bin/octoprint
 PIDFILE=/var/run/$NAME.pid
 PKGNAME=octoprint2
 SCRIPTNAME=/etc/init.d/$PKGNAME
+```
 
-Now this is where we deviate from the linked tutorial a bit. We are going to create some symlinks between the .octoprint folders so things like gcode files, printer profiles and snapshots are shared between the two printers. We are also going to link the users file so that setup will be simpler and you will only need to change users on each pi once rather than twice.
+Now this is where we deviate from the linked tutorial a bit. We are going to
+create some symlinks between the .octoprint folders so things like gcode files,
+printer profiles and snapshots are shared between the two printers. We are also
+going to link the users file so that setup will be simpler and you will only
+need to change users on each pi once rather than twice.
 
 
-First we need to remove the directories we want to duplicate in the new .octoprint folder: .octoprint2. You need to use rm -rf to delete the timelapse folder since it will not be empty
+First we need to remove the directories we want to duplicate in the new
+.octoprint folder: .octoprint2. You need to use `rm -rf` to delete the timelapse
+folder since it will not be empty
 
+```bash
 rmdir /home/pi/.octoprint2/uploads
 rm -rf /home/pi/.octoprint2/timelapse
 rm /home/pi/.octoprint2/users.yaml
 Rm -rf /home/pi/.octoprint2/printerProfiles
-
+```
 Now create the symlinks
-
+```bash
 ln -sf /home/pi/.octoprint/uploads/ /home/pi/.octoprint2/uploads
 ln -sf /home/pi/.octoprint/timelapse/ /home/pi/.octoprint2/timelapse
 ln -sf /home/pi/.octoprint/users.yaml /home/pi/.octoprint2/users.yaml
 ln -sf /home/pi/.octoprint/printerProfiles/ /home/pi/.octoprint2/printerProfiles/
+```
+You can check your work by running the command `ls -lash /home/pi/.octoprint2`
 
-You can check your work by running the command ls -lash /home/pi/.octoprint2
+The files and directories you linked should have arrows next to them pointing to
+the .octoprint directory.
 
-The files and directories you linked should have arrows next to them pointing to the .octoprint directory.
+After making the changes in the .octoprint2 directory, we need to inform the
+operating system about the new daemon(s) we just created.
 
-After making the changes in the .octoprint2 directory, we need to inform the operating system about the new daemon(s) we just created.
-
+```bash
 sudo systemctl daemon-reload
 
-And we want it to run automatically on bootup:
+# And we want it to run automatically on bootup:
 
 sudo update-rc.d octoprint2 defaults
 
-Now start the service manually for now to test it:
+# Now start the service manually for now to test it:
 
 sudo systemctl start octoprint2
 
-And see if it is running with no errors:
+# And see if it is running with no errors:
 
 sudo systemctl status octoprint2.service
+```
 
+Now we need to allow access to both octoprint instances. We will set it up so
+our printers are accessible at subdirectories under the main domain name. This
+is done using a service called HaProxy that is already in use in order to
+translate the port 5000 webserver of the original octoprint service to port 80
+which is the automatic web port.
 
-Now we need to allow access to both octoprint instances. We will set it up so our printers are accessible at subdirectories under the main domain name. This is done using a service called HaProxy that is already in use in order to translate the port 5000 webserver of the original octoprint service to port 80 which is the automatic web port.
+First we need to stop the HaProxy service. This will temporarily stop the web
+interface from being accessible.
 
-First we need to stop the HaProxy service. This will temporarily stop the web interface from being accessible.
-
+```bash
 Sudo systemctl stop haproxy
-
+```
 Now make a copy of the existing config file as a backup and then edit the config file:
 
+```bash
 sudo cp /etc/haproxy/haproxy.cfg /etc/haproxy/haproxy.old
 
 sudo nano /etc/haproxy/haproxy.cfg
+```
 
 You will need to create a new backend config section for each new printer you are adding, as well as edit the existing one. The frontend config file will also need to be edited. See examples below for the haproxy-config I implemented on the mini printers:
 
-
+```config
 global
         maxconn 4096
         user haproxy
@@ -409,23 +461,31 @@ backend webcam
         reqrep ^([^\ :]*)\ /webcam/(.*)     \1\ /\2
         server webcam1  127.0.0.1:8080
         errorfile 503 /etc/haproxy/errors/503-no-webcam.http
+```
 
 Now you need to start haproxy again and test things.
 
-When connecting, make sure to use a trailing slash on the url, otherwise haproxy gets mad
+When connecting, make sure to use a trailing slash on the url, otherwise haproxy
+gets mad
 
-Now that both printers are accessible over the web interface, make final configuration changes.
+Now that both printers are accessible over the web interface, make final
+configuration changes.
 
 First, hit the wrench icon on the menu bar at the top to access the settings menu.
 
-Type in /dev/ttyLM* or /dev/ttyTAZ* in the additional serial ports box, depending on which pi you are configuring.
+Type in `/dev/ttyLM*` or `/dev/ttyTAZ*` in the additional serial ports box,
+depending on which pi you are configuring.
 
 Select the appropriate serial port from the drop down box.
 
 Now select printer profiles and add a new one.
 
-Depending on which pi you are configuring, select either the Lulzbot Mini options or the Lulzbot Taz 6 options below. Due to symlinks, these options will only have to be configured once and will propagate to all octoprint instances on ONE pi.
+Depending on which pi you are configuring, select either the Lulzbot Mini
+options or the Lulzbot Taz 6 options below. Due to symlinks, these options will
+only have to be configured once and will propagate to all octoprint instances on
+ONE pi.
 
+```config
 Lulzbot Mini - default
 General:
 Name = lulzbot-mini
@@ -473,10 +533,15 @@ E = 300mm/min
 Hotend & extruder:
 Nozzle Diameter: 0.5mm
 Number of Extruders: 1
+```
 
-Configure default temperatures under the temperatures tab. This will already be encoded in the gcode file but its a nice little extra. This needs to be taken care of per octoprint instance. If you feel confident in your terminal skills, you can always copy paste this info from one config.yaml into another.
+Configure default temperatures under the temperatures tab. This will already be
+encoded in the gcode file but its a nice little extra. This needs to be taken
+care of per octoprint instance. If you feel confident in your terminal skills,
+you can always copy paste this info from one `config.yaml` into another.
 
-Give each instance a name under the appearance tab. I used template of B111 Lab Mini/Taz #
+Give each instance a name under the appearance tab. I used template of B111 Lab
+Mini/Taz #
 
 Plugin Manager:
 
