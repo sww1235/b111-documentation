@@ -687,16 +687,16 @@ Nozzle Diameter: 0.5mm
 Number of Extruders: 1
 ```
 
-Configure default temperatures under the temperatures tab. This will already be
-encoded in the gcode file but its a nice little extra. This needs to be taken
-care of per octoprint instance. If you feel confident in your terminal skills,
-you can always copy paste this info from one `config.yaml` into another.
-
 Give each instance a name under the appearance tab. I used template of B111 Lab
 Mini/Taz #
 
 Plugin Manager:
 
-Disable CuraEngine and Discovery since we are not slicing on the Pis.
+Disable CuraEngine, Discovery and Virtual Printer since we are not slicing on the Pis.
+
+Announcements:
+
+Disable everything except OctoPi News and Release Announcements so you don't get
+spammed by announcements.
 
 Hit restart.
