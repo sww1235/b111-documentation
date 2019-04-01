@@ -48,6 +48,70 @@ overwritten during the firmware upgrade process and must be restored manually.
 12. Reconnect the 3D printer to the Raspberry Pi.
 
 
+<h2 id="toolhead-swap">Changing Extruder Heads</h2>
+
+These instructions were modified from those found on
+[LulzBot's OHAI](https://ohai.lulzbot.com/). Look at their instructions as well
+if you have questions.
+
+**IMPORTANT:**
+
+Before following any of the below instructions, first:
+
+1.  Home the 3D printer, then move the Z axis to at least 200mm off the bed
+    and the X axis to the approximate center of the bed. This will allow for
+		ease of access.
+2.  Unplug the Power cord and USB cord from the printer.
+
+<h3 id="removing-old-heads">Removing Old Version Single Extruder Heads</h3>
+
+1.  Unplug the tool head connector from the wiring harness.
+2.  Be sure to support the tool head with your hand to prevent it from falling
+    onto the print surface.
+3.  Unscrew the tool head mounting screw by turning counter-clockwise from the
+    X-axis carriage with your 2.5 mm hex key.
+4.  Verify that the `E-Steps` value is recorded on the back of the extruder.
+    If it is not, then remount and reconnect the extruder to the printer, plug
+		things back in and follow the instructions in
+		[Recording `E-Steps`](#viewing-esteps) to view the E-Steps for the head.
+		Make sure to write them down on the back of the extruder assembly.
+
+<h3 id="installing-taz-aerostruder">Installing an Aerostruder Head on A Taz 6 printer</h3>
+
+**NOTE:** `E-Steps` values for Aerostruder heads are preset in the firmware of
+the 3D printer. Make sure to [Upgrade the firmware](#firmware-upgrade) of the
+printer before installing the new extruder.
+
+1.  Remove existing extruder head if installed.
+2.  Seat the new tool head into the X-axis carriage, allowing the tool head to
+    self-center.
+3.  Support the tool head with your hand to prevent it from falling onto the
+    print surface.
+4.  Secure the tool head to the X-axis carriage with the M3 screw from the
+    earlier step, screwing it in a 2.5 mm hex key.
+5.  Pull foam off of 16-pin connector piece.
+6.  Find the side of the connector piece that has a small arrow and align it
+    with the same side on the other connection piece.
+7.  Connect the two 16-pin connectors, making sure to match them based on the
+    pins in the connector.
+8.  Extract Factory Filament if present by heating extruder to 205 and using
+    the retract function of Cura or Octoprint to remove the filament.
+		(Do not pull it manually as this can clog the extruder.)
+
+<h3 id="installing-taz-oldhead">Installing the Old Taz Heads</h3>
+
+1.  Remove existing extruder head if installed.
+2.  Seat the new tool head into the X-axis carriage, allowing the tool head to
+    self-center.
+3.  Support the tool head with your hand to prevent it from falling onto the
+    print surface.
+4.  Secure the tool head to the X-axis carriage with the M3 screw from the
+    earlier step, screwing it in a 2.5 mm hex key.
+6.  Find the side of the connector piece that has a small arrow and align it
+    with the same side on the other connection piece.
+7.  Connect the two 16-pin connectors, making sure to match them based on the
+    pins in the connector.
+
 
 
 
