@@ -43,71 +43,71 @@ This topic is very large and is not a subject for this quickstart guide. A few
 <table>
 
 <tr>
-	<th>Filament</th>
-	<th>Bed Temperature</th>
-	<th>Filament Temperature</th>
-	<th>Description</th>
+  <th>Filament</th>
+  <th>Bed Temperature</th>
+  <th>Filament Temperature</th>
+  <th>Description</th>
 </tr>
 
 <tr>
 
-	<td>PLA</td>
+  <td>PLA</td>
 
-	<td>65&deg;C</td>
+  <td>65&deg;C</td>
 
-	<td>200&deg;C</td>
+  <td>200&deg;C</td>
 
-	<td>PLA (Polylactic Acid) is a good inexpensive filament for prototypes. It is
-	reasonably strong but very easy to print with and get good results. It has
-	poor heat tolerance and will deform, even in the back of a hot car. It is
-	biodegradable so is more environmentally friendly.</td>
+  <td>PLA (Polylactic Acid) is a good inexpensive filament for prototypes. It is
+  reasonably strong but very easy to print with and get good results. It has
+  poor heat tolerance and will deform, even in the back of a hot car. It is
+  biodegradable so is more environmentally friendly.</td>
 
-	</tr>
-
-<tr>
-
-	<td>ABS</td>
-
-	<td>110&deg;C</td>
-
-	<td>240&deg;C</td>
-
-	<td>ABS (Acrylonitrile Butadiene Styrene) is harder to print with, but is
-	probably the strongest out of the common filaments. It is also fairly brittle.
-	Larger parts have a tendency to warp and lose dimensional accuracy if the part
-	cools down too quickly. Always use the printer enclosures if printing with
-	ABS. ABS can be dissolved with Acetone, which allows parts to be smoothed, as
-	well as plastic welded. It is UV sensitive and will deteriorate over time if
-	exposed to the sun. It is non biodegradable but is recyclable.</td>
-
-</tr>
+  </tr>
 
 <tr>
 
-	<td>HIPS</td>
+  <td>ABS</td>
 
-	<td>100&deg;C</td>
+  <td>110&deg;C</td>
 
-	<td>240&deg;C</td>
+  <td>240&deg;C</td>
 
-	<td>HIPS (High Impact Polystyrene) is slightly easier to print with than ABS
-	and does not warp as much. It has similar strength to ABS but is less brittle.
-	Larger parts have a tendency to warp and lose dimensional accuracy if the part
-	cools down too quickly. Always use the printer enclosures if printing with
-	HIPS. HIPS can be dissolved with Limonene similarly to ABS.</td>
+  <td>ABS (Acrylonitrile Butadiene Styrene) is harder to print with, but is
+  probably the strongest out of the common filaments. It is also fairly brittle.
+  Larger parts have a tendency to warp and lose dimensional accuracy if the part
+  cools down too quickly. Always use the printer enclosures if printing with
+  ABS. ABS can be dissolved with Acetone, which allows parts to be smoothed, as
+  well as plastic welded. It is UV sensitive and will deteriorate over time if
+  exposed to the sun. It is non biodegradable but is recyclable.</td>
 
 </tr>
 
 <tr>
 
-	<td>Nylon</td>
+  <td>HIPS</td>
 
-	<td>65&deg;C</td>
+  <td>100&deg;C</td>
 
-	<td>230&deg;C</td>
+  <td>240&deg;C</td>
 
-	<td>Nylon (Polyamide) is very hard wearing and is ideal for parts that rub or
-	wear such as gears. It will absorb moisture during storage</td>
+  <td>HIPS (High Impact Polystyrene) is slightly easier to print with than ABS
+  and does not warp as much. It has similar strength to ABS but is less brittle.
+  Larger parts have a tendency to warp and lose dimensional accuracy if the part
+  cools down too quickly. Always use the printer enclosures if printing with
+  HIPS. HIPS can be dissolved with Limonene similarly to ABS.</td>
+
+</tr>
+
+<tr>
+
+  <td>Nylon</td>
+
+  <td>65&deg;C</td>
+
+  <td>230&deg;C</td>
+
+  <td>Nylon (Polyamide) is very hard wearing and is ideal for parts that rub or
+  wear such as gears. It will absorb moisture during storage</td>
 
 </tr>
 
@@ -141,12 +141,11 @@ Printer` dropdown in CURA.
 3.  Import your file into CURA Lulzbot Edition, which is on all the B111 lab computers. Cura can also be downloaded onto personal computers
 as well from <https://www.lulzbot.com/cura#download>. This documentation was
 produced with Cura Lulzbot Edition V3.2.32.
-
-	1.  Click on `File -> New Project` to clear the workspace. You can
-	also hit `ctrl + N`.
-	2.  Click on the folder on the left side to import your STL file. You can import
-	multiple STL files at once if you want. You can also go to `File -> Open File`
-	or `Ctrl + O` to add files.
+    1.  Click on `File -> New Project` to clear the workspace. You can
+    also hit `ctrl + N`.
+    2.  Click on the folder on the left side to import your STL file. You can import
+    multiple STL files at once if you want. You can also go to `File -> Open File`
+    or `Ctrl + O` to add files.
 
 ![Cura Main screen with no file loaded](./cura-open-file.png)
 
@@ -157,34 +156,35 @@ aware:** This will significantly increase your print time. The high speed
 profile can decrease your print time if you do not have detailed parts.
 
 5.  Select your infill, support and build plate adhesion settings.
-	-   A 20% to 40% infill is good enough for most projects.
-	-   The support options allow for larger overhangs and holes to be printed.
-	-   The build plate adhesion setting usually can be set to skirt.
-		-   Skirt: Prints an outline of filament around your part to prime the
-		extruder and show if the bed is level.
-		-   Brim: If you have small parts or are having issues with your part
-		detaching from the print bed, then you may want to try a brim. This prints a
-		single layer of filament around your part that is attached to your part in
-		order to increase the surface area of your part on the build plate.
-		-   Raft: If you are still having issues with your part coming off, you
-		can try a raft. This prints a large extra thick brim under and
-		around your part. This can be tricky to remove from your part and
-		uses extra filament so it is not recommended except in certain
-		cases. Please talk to the B111 lab team before resorting to a skirt,
-		as we may be able to provide alternate solutions.
-	-   If you understand 3D printing well and need to tweak specific settings,
-	you can do so under the custom tab. **NOTE:** Do not change the
-	`default nozzle size` setting. You may have to change the
-	`print temperature` and `build plate temperature` under the `materials`
-	section if things are not printing quite right. If you have questions,
-	please ask the B111 Labs team first.
+    -   A 20% to 40% infill is good enough for most projects.
+    -   The support options allow for larger overhangs and holes to be printed.
+    -   The build plate adhesion setting usually can be set to skirt.
+        -   Skirt: Prints an outline of filament around your part to prime the
+        extruder and show if the bed is level.
+        -   Brim: If you have small parts or are having issues with your part
+        detaching from the print bed, then you may want to try a brim. This
+        prints a single layer of filament around your part that is attached to
+        your part in order to increase the surface area of your part on the
+        build plate.
+        -   Raft: If you are still having issues with your part coming off, you
+        can try a raft. This prints a large extra thick brim under and
+        around your part. This can be tricky to remove from your part and
+        uses extra filament so it is not recommended except in certain
+        cases. Please talk to the B111 lab team before resorting to a skirt,
+        as we may be able to provide alternate solutions.
+    -   If you understand 3D printing well and need to tweak specific settings,
+    you can do so under the custom tab. **NOTE:** Do not change the
+    `default nozzle size` setting. You may have to change the
+    `print temperature` and `build plate temperature` under the `materials`
+    section if things are not printing quite right. If you have questions,
+    please ask the B111 Labs team first.
 
 6.  Position your part on the build platform and choose the scale and rotation of your part. You must click on the part you want to change in order to activeate the controls on the left. Use your best judgement about the best way to locate and orient your part on the build platform. These controls are found on the left of the screen. Some tips:
-	-   There either needs to be a flat side on your part, or supports must be on,
-	at least from part to build platform.
-	-   3D printed parts are often strongest in the horizontal (XY plane), with
-	the vertical axis weaker due to the layering effect.
-	-   Circles and holes print much more accurately if printed with their center axis vertical.
+    -   There either needs to be a flat side on your part, or supports must be on,
+    at least from part to build platform.
+    -   3D printed parts are often strongest in the horizontal (XY plane), with
+    the vertical axis weaker due to the layering effect.
+    -   Circles and holes print much more accurately if printed with their center axis vertical.
 
 ![Part Editing Controls](./cura-edit-model.png)
 
@@ -200,10 +200,10 @@ ahead and save your GCODE file by hitting save to file.
 1.  Log in to OctoPrint. Each printer has its own website as listed below or on
 the ECE Student Projects Lab Website.
 <http://projects-web.engr.colostate.edu/ece-sr-design/B111Lab/>
-	-   **Mini 1:** <https://b111-mini-printers.engr.colostate.edu/mini1/>
-	-   **Mini 2:**<https://b111-mini-printers.engr.colostate.edu/mini2/>
-	-   **Taz 1:**<https://b111-taz-printers.engr.colostate.edu/taz1/>
-	-   **Taz 2:**<https://b111-taz-printers.engr.colostate.edu/taz2/>
+    -   **Mini 1:** <https://b111-mini-printers.engr.colostate.edu/mini1/>
+    -   **Mini 2:**<https://b111-mini-printers.engr.colostate.edu/mini2/>
+    -   **Taz 1:**<https://b111-taz-printers.engr.colostate.edu/taz1/>
+    -   **Taz 2:**<https://b111-taz-printers.engr.colostate.edu/taz2/>
 
 2.  Verify OctoPrint can talk to the printer. Usually this is not the case
 since we keep the printers turned off. If you see a screen that looks like the
@@ -219,10 +219,10 @@ printer, but when connected, the screen should look like the second image.
 ![OctoPrint Communications Success](./octoprint-comms-success.png)
 
 3.  Import your part into Octoprint.
-	1.  Click Upload and select the gcode file you created in CURA.
-	2.  If you are uploading several parts, create a folder for your parts.
-	3.  When you are done, please delete your part files since there is limited
-	space on the OctoPrint servers.
+    1.  Click Upload and select the gcode file you created in CURA.
+    2.  If you are uploading several parts, create a folder for your parts.
+    3.  When you are done, please delete your part files since there is limited
+    space on the OctoPrint servers.
 4.  Select your part in the list and load it. Make sure it shows up properly
 in the preview window.
 5.  Select the control tab and preheat the extruder to 250ºC to allow ABS to flow.
