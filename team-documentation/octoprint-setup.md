@@ -347,9 +347,9 @@ SUBSYSTEM=="tty", ATTRS{idVendor}=="27b1", ATTRS{idProduct}=="0001", ATTRS{seria
 
 Now you need to create a new instance of octoprint for each printer connected to
 a pi. If there are more than 2 printers connected, you will need to repeat these
-steps for each additional printer, replacing octoprint2 with octoprintn where n
-is the number of the printer. (the n can be anything descriptive of which
-printer is being configured, but it really doesn’t matter)
+steps for each additional printer, replacing `octoprint2` with `octoprintn`
+where n is the number of the printer. (the n can be anything descriptive of
+which printer is being configured, but it really doesn’t matter)
 
 First, copy octoprint directory: `cp -R /home/pi/.octoprint/ /home/pi/.octoprint2`
 
