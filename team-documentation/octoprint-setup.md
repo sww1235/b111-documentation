@@ -611,6 +611,10 @@ backend webcam
 
 Now you need to start haproxy again and test things.
 
+```bash
+sudo systemctl start haproxy
+```
+
 When connecting, make sure to use a trailing slash on the url, otherwise haproxy
 gets mad
 
