@@ -659,7 +659,9 @@ E = 300mm/min
 Hotend & extruder:
 Nozzle Diameter: 0.5mm
 Number of Extruders: 1
+```
 
+```config
 Lulzbot Taz 6 - default
 General:
 Name = lulzbot-taz-6
