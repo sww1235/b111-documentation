@@ -44,7 +44,58 @@ and go through the initial configuration wizard, create an initial admin account
 called `b111-admin` with the password on the password document. Leave everything
 else default for now.
 
-Configuring multiple printers on one pi:
+## SSH Setup
+
+By default, you can ssh into the Raspberry Pi using the hostname, while you are
+on campus.
+
+A typical command line on MacOS or Linux would look something like:
+
+```bash
+ssh pi@b111-taz-printers.engr.colostate.edu # username@server
+```
+
+After hitting enter, you will be prompted for the pi user's password.
+
+If you are using windows, you can either install a terminal emulator software
+such as PuTTy or install Git Bash, which adds a better terminal to windows and
+basic linux commands including ssh. This way you can use the linux instructions
+with no worries.
+
+### Passwordless SSH Setup (Optional but highly recommended)
+
+**Important:** If you know how to use SSH and keys etc, ignore this section.
+
+In order to simplify connecting via SSH to the Pi's you can set up SSH Keys
+which use public private key encryption and authentication rather than typing
+passwords.
+
+Please learn more about using ssh keys including agents before working through
+this section.
+
+You must perform these steps on every computer you intend to use to connect to
+the Pi's with no password. Access with a password will still be enabled so you
+don't need to do this on every computer. I recommend you set this up on your
+personal computer as well as on the ENS computers in your U drive. This way you
+can easily connect from any engineering computer.
+
+These steps only work on Mac and Linux by default. (windows needs some additional
+configuration)
+
+1.  Check for existing keys in `~/.ssh` on the computer you will be connecting
+    from. These will be files of the form `id_*` where \* would be `rsa`,
+    `ed25519` or something else.
+2.  If there are existing keys there, it is usually easier to use them rather
+    than creating a new key.
+3.  If there are no keys, you will need to run the command below to generate a
+    new public-private keypair.
+    `ssh-keygen -t ed25519 -f ~/.ssh/id_ed25519 -q -P ""`. If you want extra
+    security, you can change the `""` after the `-P` to a passphrase enclosed in
+    the quotes but it is not necessary.
+4.  run the command `ssh-copy-id pi@b111-taz-printers.engr.colostate.edu` and
+    `ssh-copy-id pi@b111-mini-printers.engr.colostate.edu`
+
+## Configuring multiple printers on one pi:
 
 This is adapted from
 <http://thomas-messmer.com/index.php/14-free-knowledge/howtos/79-setting-up-octoprint-for-multiple-printers>
