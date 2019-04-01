@@ -38,7 +38,7 @@ remember all the required steps.
 This topic is very large and is not a subject for this quickstart guide. A few
 3D printing specific notes are shown below.
 
--   Filament selection:
+### Filament selection:
 
 <table>
 
