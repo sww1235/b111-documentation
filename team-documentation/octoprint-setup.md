@@ -1,11 +1,21 @@
 # OctoPrint Setup Reference
 
+This is referenced against OctoPrint 1.3.10 and OctoPi 0.16.0.
+
+OctoPrint contains a very basic implementation of access control which we are
+currently using. There is development of a better access control system in the
+works, so some of these instructions might need to change.
+
+**Important:** These instructions are fairly complete but assume some basic
+linux knowlege as well as familararity with computers and networking. I suggest
+googling anything you don't understand.
+
 ## Create SD card image (only necessary if setting up new pi or old image gets corrupted)
 
 -   Download SD image
 -   Copy to SD card using system specific tooling
 
-## On First boot:
+### On First boot:
 
 -   Connect keyboard and HDMI monitor. Do not connect ethernet cable yet
 -   Login as user pi and change password using `passwd` command. See password document
