@@ -361,6 +361,11 @@ You need to increment the port that the DAEMON runs on, so for the second
 printer, set `PORT=5001`, and add the basedir option to the `DAEMON_ARGS` line:
 `DAEMON_ARGS="--host=$HOST --port=$PORT --basedir /home/pi/.octoprint2/"`
 
+In order to prevent confusion, also edit the original config script: `sudo nano /etc/default/octoprint`
+
+Add the basedir option to the `DAEMON_ARGS` line:
+`DAEMON_ARGS="--host=$HOST --port=$PORT --basedir /home/pi/.octoprint/"`
+
 Now you need to copy the init script and modify it:
 ```bash
 sudo cp /etc/init.d/octoprint /etc/init.d/octoprint2
@@ -414,14 +419,14 @@ folder since it will not be empty
 rmdir /home/pi/.octoprint2/uploads
 rm -rf /home/pi/.octoprint2/timelapse
 rm /home/pi/.octoprint2/users.yaml
-Rm -rf /home/pi/.octoprint2/printerProfiles
+rm -rf /home/pi/.octoprint2/printerProfiles
 ```
 Now create the symlinks
 ```bash
 ln -sf /home/pi/.octoprint/uploads/ /home/pi/.octoprint2/uploads
 ln -sf /home/pi/.octoprint/timelapse/ /home/pi/.octoprint2/timelapse
 ln -sf /home/pi/.octoprint/users.yaml /home/pi/.octoprint2/users.yaml
-ln -sf /home/pi/.octoprint/printerProfiles/ /home/pi/.octoprint2/printerProfiles/
+ln -sf /home/pi/.octoprint/printerProfiles/ /home/pi/.octoprint2/printerProfiles
 ```
 You can check your work by running the command `ls -lash /home/pi/.octoprint2`
 
@@ -457,17 +462,22 @@ First we need to stop the HaProxy service. This will temporarily stop the web
 interface from being accessible.
 
 ```bash
-Sudo systemctl stop haproxy
+sudo systemctl stop haproxy
 ```
 Now make a copy of the existing config file as a backup and then edit the config file:
 
 ```bash
 sudo cp /etc/haproxy/haproxy.cfg /etc/haproxy/haproxy.old
-
 sudo nano /etc/haproxy/haproxy.cfg
 ```
 
-You will need to create a new backend config section for each new printer you are adding, as well as edit the existing one. The frontend config file will also need to be edited. See examples below for the haproxy-config I implemented on the mini printers:
+You will need to create a new backend config section for each new printer you
+are adding, as well as edit the existing one. The frontend config file will also
+need to be edited. See examples below for the haproxy-config I implemented for
+each of the 2 Raspberry Pis. You should just be able to copy and paste unless
+the HaProxy config format has seriously changed.
+
+### Mini Printer Config
 
 ```config
 global
