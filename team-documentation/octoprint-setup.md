@@ -410,6 +410,11 @@ printer profiles and snapshots are shared between the two printers. We are also
 going to link the users file so that setup will be simpler and you will only
 need to change users on each pi once rather than twice.
 
+**NOTE:** If you are setting up multiple Raspberry Pi's, see the instructions
+[here](#multi-pi-setup) in order to sync users properly. Ignore any reference
+to users.yaml in the instructions below if you are following the multi pi
+setup.
+
 
 First we need to remove the directories we want to duplicate in the new
 .octoprint folder: .octoprint2. You need to use `rm -rf` to delete the timelapse
@@ -700,3 +705,5 @@ Disable everything except OctoPi News and Release Announcements so you don't get
 spammed by announcements.
 
 Hit restart.
+
+<h2 id="multi-pi-setup">Setting Up Syncronized Access Control Across Multiple Pis</h2>
