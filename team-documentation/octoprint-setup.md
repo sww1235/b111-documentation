@@ -52,17 +52,17 @@ First, find the differences between the two devices using the udevadm command:
 The pipe into less allows you to scroll through the command output easily on a
 short terminal.
 
+>Udevadm info starts with the device specified by the devpath and then walks up
+>the chain of parent devices. It prints for every device found, all possible
+>attributes in the udev rules key format. A rule to match, can be composed by
+>the attributes of the device and the attributes from one single parent device.
+>Although the tty subsystem is still available with usb ATTRS. This was a
+>mistake I made.
+
 Example output is shown below:
 
 ```bash
 pi@b111-taz-printers:~ $ udevadm info -a -n /dev/ttyACM1
-
-Udevadm info starts with the device specified by the devpath and then
-walks up the chain of parent devices. It prints for every device
-found, all possible attributes in the udev rules key format.
-A rule to match, can be composed by the attributes of the device
-and the attributes from one single parent device. Although the tty subsystem is
-still available with usb ATTRS. This was a mistake I made.
 
   looking at device '/devices/platform/soc/3f980000.usb/usb1/1-1/1-1.4/1-1.4:1.0/tty/ttyACM1':
     KERNEL=="ttyACM1"
@@ -255,14 +255,19 @@ This version will work, but connects to the wrong device.
 SUBSYSTEM=="usb", ATTRS{idVendor}=="27b1", ATTRS{idProduct}=="0001", ATTRS{serial}=="755303132313515092B0", SYMLINK+="ttyTAZ2"
 ```
 
-Even though the idVendor, idProduct and serial attrs are not part of the tty device section, we can still use them. This maps to the tty serial port rather than the usb device itself.
+Even though the idVendor, idProduct and serial attrs are not part of the tty
+device section, we can still use them. This maps to the tty serial port rather
+than the usb device itself.
+
 ```
 SUBSYSTEM=="tty", ATTRS{idVendor}=="27b1", ATTRS{idProduct}=="0001", ATTRS{serial}=="755303132313515092B0", SYMLINK+="ttyTAZ2"
 ```
 
 The symlink is what you want the printer to be called and will appear under /dev/.
 
-The current udev rules that I created are documented below. These should work unless
+The current udev rules that I created are documented below. These should work
+unless something changes with the printers. Verify these values before using
+them.
 
 B111-taz-printers:
 
@@ -295,10 +300,14 @@ You need to increment the port that the DAEMON runs on, so for the second
 printer, set `PORT=5001`, and add the basedir option to the `DAEMON_ARGS` line:
 `DAEMON_ARGS="--host=$HOST --port=$PORT --basedir /home/pi/.octoprint2/"`
 
-Now you need to copy the init script and modify it: ```bash sudo cp
-/etc/init.d/octoprint /etc/init.d/octoprint2 sudo nano /etc/init.d/octoprint2
-``` Change every instance of octoprint to octoprint2 except for the
-DAEMON=/usr/bin/octoprint line. The things you need to change should all be at
+Now you need to copy the init script and modify it:
+```bash
+sudo cp /etc/init.d/octoprint /etc/init.d/octoprint2
+sudo nano /etc/init.d/octoprint2
+```
+
+Change every instance of octoprint to octoprint2 except for the
+`DAEMON=/usr/bin/octoprint` line. The things you need to change should all be at
 the top of the file. No need to scroll down below the SCRIPTNAME line. See an
 example below.
 
